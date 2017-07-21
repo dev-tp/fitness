@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Fitness</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="header_full_name">Full Name</string>
+    <string name="header_email">email@example.com</string>
+</resources>
