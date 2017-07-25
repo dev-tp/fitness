@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -84,9 +86,18 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
                 if (pause) {
                     timeOnStart = SystemClock.uptimeMillis();
                     mHandler.postDelayed(updateTimeThread, REFRESH_RATE);
+                    mActiveTimeView.setAnimation(null);
                 } else {
                     timeOnPause += elapsedTime;
                     mHandler.removeCallbacks(updateTimeThread);
+
+                    Animation animation = new AlphaAnimation(0.0f, 1.0f);
+                    animation.setDuration(500L);
+                    animation.setRepeatCount(Animation.INFINITE);
+                    animation.setRepeatMode(Animation.REVERSE);
+                    animation.setStartOffset(20L);
+
+                    mActiveTimeView.setAnimation(animation);
                 }
             }
         });
