@@ -38,7 +38,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = "GoogleMapsFrag";
 
-    private boolean pause;
+    private boolean onStart;
     private long elapsedTime;
     private long startTime;
     private long timeOnPause;
@@ -99,7 +99,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
 
     @Override
     public void onLocationChanged(Location location) {
-        if (pause) {
+        if (onStart) {
             LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
             coordinates.add(coordinate);
 
@@ -178,12 +178,12 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 if (startTime == 0L)
                     startTime = SystemClock.uptimeMillis();
 
-                pause = !pause;
+                onStart = !onStart;
 
-                startPauseButton.setText(pause ? R.string.action_pause : R.string.action_start);
-                stopButton.setEnabled(pause);
+                startPauseButton.setText(onStart ? R.string.action_pause : R.string.action_start);
+                stopButton.setEnabled(onStart);
 
-                if (pause) {
+                if (onStart) {
                     timeOnStart = SystemClock.uptimeMillis();
                     mHandler.postDelayed(updateTimeThread, REFRESH_RATE);
                 } else {
