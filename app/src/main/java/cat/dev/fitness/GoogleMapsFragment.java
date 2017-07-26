@@ -50,6 +50,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private Handler mHandler;
     private LocationManager mLocationManager;
     private TextView mActiveTimeView;
+    private TextView mAveragePaceView;
     private TextView mTotalDistanceView;
 
     private Runnable updateTimeThread = new Runnable() {
@@ -125,6 +126,13 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 // Convert metres to miles
                 double displayTotalDistance = totalDistance * 0.000621371;
                 mTotalDistanceView.setText(String.format(Locale.US, "%.2f mi", displayTotalDistance));
+
+                int activeTime = (int) (timeOnPause + elapsedTime) / 1000 / 60;
+                double averagePace = activeTime / displayTotalDistance;
+                int minutes = (int) averagePace;
+                int seconds = (int) (averagePace % 1 * 60);
+
+                mAveragePaceView.setText(String.format(Locale.US, "%d:%02d/mi", minutes, seconds));
             }
         }
     }
@@ -182,6 +190,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 .getMapAsync(this);
 
         mActiveTimeView = (TextView) getActivity().findViewById(R.id.active_time);
+        mAveragePaceView = (TextView) getActivity().findViewById(R.id.average_pace);
         mTotalDistanceView = (TextView) getActivity().findViewById(R.id.total_miles);
 
         final Button startPauseButton = (Button) getActivity().findViewById(R.id.start_pause_button);
