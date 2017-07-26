@@ -28,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -39,6 +40,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private static final String TAG = "GoogleMapsFrag";
 
     private boolean onStart;
+    private double totalDistance;
     private long elapsedTime;
     private long startTime;
     private long timeOnPause;
@@ -48,6 +50,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private Handler mHandler;
     private LocationManager mLocationManager;
     private TextView mActiveTimeView;
+    private TextView mTotalDistanceView;
 
     private Runnable updateTimeThread = new Runnable() {
         @Override
@@ -112,6 +115,17 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
             );
 
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
+
+            int size = coordinates.size();
+
+            if (size > 1) {
+                LatLng previous = coordinates.get(size - 2);
+                totalDistance += SphericalUtil.computeDistanceBetween(previous, coordinate);
+
+                // Convert metres to miles
+                double displayTotalDistance = totalDistance * 0.000621371;
+                mTotalDistanceView.setText(String.format(Locale.US, "%.2f mi", displayTotalDistance));
+            }
         }
     }
 
@@ -168,6 +182,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 .getMapAsync(this);
 
         mActiveTimeView = (TextView) getActivity().findViewById(R.id.active_time);
+        mTotalDistanceView = (TextView) getActivity().findViewById(R.id.total_miles);
 
         final Button startPauseButton = (Button) getActivity().findViewById(R.id.start_pause_button);
         final Button stopButton = (Button) getActivity().findViewById(R.id.stop_button);
@@ -196,6 +211,8 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onStart = false;
+
                 mHandler.removeCallbacks(updateTimeThread);
 
                 startPauseButton.setEnabled(false);
