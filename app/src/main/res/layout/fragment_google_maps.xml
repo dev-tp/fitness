@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="20dp"
-            android:text="@string/header_active_time"
+            android:text="@string/placeholder_active_time"
             android:textColor="#000"
             android:textSize="48sp" />
 
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/header_total_miles"
+                android:text="@string/placeholder_total_miles"
                 android:textColor="#000"
                 android:textSize="24sp" />
 
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/header_counted_steps"
+                android:text="@string/placeholder_counted_steps"
                 android:textColor="#000"
                 android:textSize="24sp" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/header_burnt_calories"
+                android:text="@string/placeholder_burnt_calories"
                 android:textColor="#000"
                 android:textSize="24sp" />
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/header_average_pace"
+                android:text="@string/placeholder_average_pace"
                 android:textColor="#000"
                 android:textSize="24sp" />
 

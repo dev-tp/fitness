@@ -8,10 +8,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     public boolean getUser() {
         // TODO If the user's name exists on the database, return true; otherwise false.
-        return true;
+        return false;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +22,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 try {
                     sleep(1000);
 
-                    if (getUser()) {
-                        startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-                    } else {
-                        // startActivity(new Intent(SplashScreenActivity.this, Profile.class));
-                    }
+                    Class activity = getUser() ? MainActivity.class : ProfileActivity.class;
+                    startActivity(new Intent(SplashScreenActivity.this, activity));
 
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
