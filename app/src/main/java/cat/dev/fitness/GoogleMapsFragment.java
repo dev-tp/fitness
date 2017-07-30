@@ -43,6 +43,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
 
     private boolean onStart;
     private double totalDistance;
+    private double weight;
     private long elapsedTime;
     private long startTime;
     private long timeOnPause;
@@ -53,6 +54,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private LocationManager mLocationManager;
     private TextView mActiveTimeView;
     private TextView mAveragePaceView;
+    private TextView mBurntCaloriesView;
     private TextView mTotalDistanceView;
 
     private Runnable updateTimeThread = new Runnable() {
@@ -135,6 +137,11 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 int seconds = (int) (averagePace % 1 * 60);
 
                 mAveragePaceView.setText(String.format(Locale.US, "%d:%02d/mi", minutes, seconds));
+
+                // http://runnersworld.com/tools/calories-burned-calculator
+                // http://runnersworld.com/sites/runnersworld.com/files/custom-js/1263036-f1703073e5ee4e4ce5923dc03ff02975.js
+                int burntCalories = (int) (totalDistance / 1000 * weight * 1.036);
+                mBurntCaloriesView.setText(String.format(Locale.US, "%d cal", burntCalories));
             }
         }
     }
@@ -183,6 +190,9 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Convert pounds to kilograms
+        weight = getActivity().getIntent().getDoubleExtra("weight", 0.0) * 0.453592;
+
         coordinates = new ArrayList<>();
         mHandler = new Handler();
 
@@ -193,6 +203,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
 
         mActiveTimeView = (TextView) getActivity().findViewById(R.id.active_time);
         mAveragePaceView = (TextView) getActivity().findViewById(R.id.average_pace);
+        mBurntCaloriesView = (TextView) getActivity().findViewById(R.id.burnt_calories);
         mTotalDistanceView = (TextView) getActivity().findViewById(R.id.total_miles);
 
         final Button startPauseButton = (Button) getActivity().findViewById(R.id.start_pause_button);
