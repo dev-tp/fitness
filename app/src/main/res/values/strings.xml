@@ -7,7 +7,7 @@
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
 
-    <string name="header_age">Age</string>
+    <string name="header_birthday">Birthday</string>
     <string name="header_email">Email</string>
     <string name="header_name">Name</string>
     <string name="header_submit">Submit</string>

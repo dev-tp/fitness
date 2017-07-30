@@ -37,8 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/header_email"
-                android:imeActionId="@+id/age"
-                android:imeActionLabel="@string/header_age"
+                android:imeActionId="@+id/birthday"
+                android:imeActionLabel="@string/header_birthday"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
@@ -50,34 +50,17 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/age"
+                android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/header_age"
+                android:hint="@string/header_birthday"
                 android:imeActionId="@+id/weight"
                 android:imeActionLabel="@string/header_weight"
                 android:imeOptions="actionUnspecified"
-                android:inputType="number"
+                android:inputType="date"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/height"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="@string/header_height"-->
-                <!--android:imeActionId="@+id/weight"-->
-                <!--android:imeActionLabel="@string/header_weight"-->
-                <!--android:imeOptions="actionUnspecified"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:maxLines="1" />-->
-
-        <!--</android.support.design.widget.TextInputLayout>-->
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
