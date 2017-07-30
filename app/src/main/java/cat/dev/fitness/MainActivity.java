@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +34,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TextView emailView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.email);
+        TextView fullNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.full_name);
+
+        emailView.setText(getIntent().getStringExtra("email"));
+        fullNameView.setText(getIntent().getStringExtra("name"));
     }
 
     @Override
