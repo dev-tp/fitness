@@ -39,11 +39,11 @@ public class BirthdayDialog extends DialogFragment implements OnClickListener {
         String date = getArguments().getString("date");
 
         if (date != null && !date.equals("")) {
-            String[] tokens = date.split("/");
+            String[] tokens = date.split("-");
 
-            int day = Integer.parseInt(tokens[1]);
-            int month = Integer.parseInt(tokens[0]) - 1;
-            int year = Integer.parseInt(tokens[2]);
+            int day = Integer.parseInt(tokens[2]);
+            int month = Integer.parseInt(tokens[1]) - 1;
+            int year = Integer.parseInt(tokens[0]);
 
             mBirthdayPicker.updateDate(year, month, day);
         }

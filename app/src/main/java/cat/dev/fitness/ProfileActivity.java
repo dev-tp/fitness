@@ -18,7 +18,7 @@ public class ProfileActivity extends AppCompatActivity implements BirthdayDialog
 
     @Override
     public void onClose(int day, int month, int year) {
-        mBirthdayTextView.setText(String.format(Locale.US, "%02d/%02d/%02d", month + 1, day, year));
+        mBirthdayTextView.setText(String.format(Locale.US, "%d-%02d-%02d", year, month + 1, day));
     }
 
     @Override

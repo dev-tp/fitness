@@ -48,7 +48,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_NAME_BIRTHDAY + " TEXT, " +
+                        COLUMN_NAME_BIRTHDAY + " DATE, " +
                         COLUMN_NAME_EMAIL + " TEXT, " +
                         COLUMN_NAME_FULL_NAME + " TEXT NOT NULL, " +
                         COLUMN_NAME_SEX + " INTEGER, " +
