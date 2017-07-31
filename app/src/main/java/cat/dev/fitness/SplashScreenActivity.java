@@ -1,14 +1,26 @@
 package cat.dev.fitness;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     public boolean getUser() {
-        // TODO If the user's name exists on the database, return true; otherwise false.
-        return false;
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Cursor cursor = DatabaseHelper.getAllEntries(database, DatabaseHelper.User.TABLE_NAME);
+
+        // If the method moveToNext() returns true, that implies there exists
+        // an entry with the user's information.
+        boolean userExists = cursor.moveToNext();
+
+        cursor.close();
+        databaseHelper.close();
+
+        return userExists;
     }
 
     @Override

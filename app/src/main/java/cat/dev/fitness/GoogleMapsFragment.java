@@ -3,6 +3,8 @@ package cat.dev.fitness;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -189,8 +191,17 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Convert pounds to kilograms
-        weight = getActivity().getIntent().getDoubleExtra("weight", 0.0) * 0.453592;
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Cursor cursor = DatabaseHelper.getAllEntries(database, DatabaseHelper.User.TABLE_NAME);
+
+        cursor.moveToNext();
+
+        weight = cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.User.COLUMN_NAME_WEIGHT));
+        weight *= 0.453592; // Convert pounds to kilograms
+
+        cursor.close();
+        databaseHelper.close();
 
         coordinates = new ArrayList<>();
         mHandler = new Handler();

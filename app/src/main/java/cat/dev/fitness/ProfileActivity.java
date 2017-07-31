@@ -1,6 +1,8 @@
 package cat.dev.fitness;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,9 @@ public class ProfileActivity extends AppCompatActivity implements BirthdayDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        final SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
         final EditText emailEditView = (EditText) findViewById(R.id.email);
         final EditText nameEditView = (EditText) findViewById(R.id.name);
@@ -83,15 +88,17 @@ public class ProfileActivity extends AppCompatActivity implements BirthdayDialog
 
                 boolean sex = genderSpinner.getSelectedItemPosition() == 0;
 
-                // TODO Parsed data should be saved and retrieved from database.
-                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                intent.putExtra("birthday", birthday);
-                intent.putExtra("email", email);
-                intent.putExtra("name", name);
-                intent.putExtra("sex", sex); // female: true, male: false
-                intent.putExtra("weight", weight);
+                ContentValues values = new ContentValues();
+                values.put(DatabaseHelper.User.COLUMN_NAME_BIRTHDAY, birthday);
+                values.put(DatabaseHelper.User.COLUMN_NAME_EMAIL, email);
+                values.put(DatabaseHelper.User.COLUMN_NAME_FULL_NAME, name);
+                values.put(DatabaseHelper.User.COLUMN_NAME_SEX, sex);
+                values.put(DatabaseHelper.User.COLUMN_NAME_WEIGHT, weight);
 
-                startActivity(intent);
+                database.insert(DatabaseHelper.User.TABLE_NAME, null, values);
+                databaseHelper.close();
+
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             }
         });
     }

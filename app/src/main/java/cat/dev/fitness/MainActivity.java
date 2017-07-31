@@ -1,5 +1,7 @@
 package cat.dev.fitness;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -35,11 +37,21 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Cursor cursor = DatabaseHelper.getAllEntries(database, DatabaseHelper.User.TABLE_NAME);
+
+        cursor.moveToNext();
+
         TextView emailView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.email);
         TextView fullNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.full_name);
 
-        emailView.setText(getIntent().getStringExtra("email"));
-        fullNameView.setText(getIntent().getStringExtra("name"));
+        emailView.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.User.COLUMN_NAME_EMAIL)));
+        fullNameView.setText(cursor.getString(cursor.getColumnIndex(
+                DatabaseHelper.User.COLUMN_NAME_FULL_NAME)));
+
+        cursor.close();
+        databaseHelper.close();
     }
 
     @Override
