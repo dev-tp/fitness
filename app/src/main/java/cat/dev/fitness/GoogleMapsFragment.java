@@ -1,6 +1,7 @@
 package cat.dev.fitness;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -46,11 +47,13 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     private boolean onStart;
     private double totalDistance;
     private double weight;
+    private int burntCalories;
     private long elapsedTime;
     private long startTime;
     private long timeOnPause;
     private long timeOnStart;
     private ArrayList<LatLng> coordinates;
+    private DatabaseHelper mDatabaseHelper;
     private GoogleMap mGoogleMap;
     private Handler mHandler;
     private LocationManager mLocationManager;
@@ -141,7 +144,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
 
                 // http://runnersworld.com/tools/calories-burned-calculator
                 // http://runnersworld.com/sites/runnersworld.com/files/custom-js/1263036-f1703073e5ee4e4ce5923dc03ff02975.js
-                int burntCalories = (int) (totalDistance / 1000 * weight * 1.036);
+                burntCalories = (int) (totalDistance / 1000 * weight * 1.036);
                 mBurntCaloriesView.setText(String.format(Locale.US, "%d cal", burntCalories));
             }
         }
@@ -191,8 +194,8 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
-        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        mDatabaseHelper = new DatabaseHelper(getContext());
+        SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
         Cursor cursor = DatabaseHelper.getAllEntries(database, DatabaseHelper.User.TABLE_NAME);
 
         cursor.moveToNext();
@@ -201,7 +204,7 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
         weight *= 0.453592; // Convert pounds to kilograms
 
         cursor.close();
-        databaseHelper.close();
+        mDatabaseHelper.close();
 
         coordinates = new ArrayList<>();
         mHandler = new Handler();
@@ -270,6 +273,18 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 seconds = totalTime % 60;
 
                 Log.d(TAG, String.format(Locale.US, "Total time: %02d:%02d", minutes, seconds));
+
+                SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_ACTIVE_TIME, activeTime);
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_BURNT_CALORIES, burntCalories);
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_DISTANCE, totalDistance);
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_TOTAL_TIME, totalTime);
+
+                database.insert(DatabaseHelper.Workout.TABLE_NAME, null, values);
+
+                mDatabaseHelper.close();
             }
         });
     }

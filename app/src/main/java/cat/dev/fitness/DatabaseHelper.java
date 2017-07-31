@@ -22,6 +22,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(User.SQL_CREATE_ENTRIES);
+        db.execSQL(Workout.SQL_CREATE_ENTRIES);
     }
 
     @Override
@@ -32,6 +33,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(User.SQL_DELETE_ENTRIES);
+        db.execSQL(Workout.SQL_DELETE_ENTRIES);
 
         onCreate(db);
     }
@@ -54,7 +56,27 @@ class DatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_NAME_SEX + " INTEGER, " +
                         COLUMN_NAME_WEIGHT + " REAL)";
 
-        static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    }
+
+    static class Workout implements BaseColumns {
+        static final String TABLE_NAME = "Workout";
+
+        static final String COLUMN_NAME_ACTIVE_TIME = "active_time";
+        static final String COLUMN_NAME_BURNT_CALORIES = "burnt_calories";
+        static final String COLUMN_NAME_DISTANCE = "distance";
+        static final String COLUMN_NAME_STEPS = "steps";
+        static final String COLUMN_NAME_TOTAL_TIME = "total_time";
+
+        static final String SQL_CREATE_ENTRIES =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_NAME_ACTIVE_TIME + " INTEGER, " +
+                        COLUMN_NAME_BURNT_CALORIES + " INTEGER, " +
+                        COLUMN_NAME_DISTANCE + " REAL, " +
+                        COLUMN_NAME_STEPS + " INTEGER DEFAULT 0, " +
+                        COLUMN_NAME_TOTAL_TIME + " INTEGER)";
+
+        static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }
