@@ -111,20 +111,19 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
             LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
             coordinates.add(coordinate);
 
-            mGoogleMap.clear();
-
-            mGoogleMap.addPolyline(new PolylineOptions()
-                    .addAll(coordinates)
-                    .color(Color.BLUE)
-                    .width(5.0f)
-            );
-
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
-
             int size = coordinates.size();
 
             if (size > 1) {
                 LatLng previous = coordinates.get(size - 2);
+
+                mGoogleMap.addPolyline(new PolylineOptions()
+                        .add(previous, coordinate)
+                        .color(Color.BLUE)
+                        .width(5.0f)
+                );
+
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
+
                 totalDistance += SphericalUtil.computeDistanceBetween(previous, coordinate);
 
                 // Convert metres to miles
