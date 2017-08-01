@@ -7,11 +7,17 @@
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
 
+    <string name="header_active_time">Active Time</string>
+    <string name="header_average_pace">Average Pace</string>
     <string name="header_birthday">Birthday</string>
+    <string name="header_calories">Calories</string>
+    <string name="header_distance">Distance</string>
     <string name="header_email">Email</string>
     <string name="header_name">Name</string>
-    <string name="header_submit">Submit</string>
     <string name="header_sex">Sex</string>
+    <string name="header_steps">Steps</string>
+    <string name="header_submit">Submit</string>
+    <string name="header_total_time">Total Time</string>
     <string name="header_weight">Weight</string>
 
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -21,9 +27,12 @@
     <string name="placeholder_average_pace">0:00/mi</string>
     <string name="placeholder_burnt_calories">0 cal</string>
     <string name="placeholder_counted_steps">0 steps</string>
+    <string name="placeholder_distance_mi">0.0 miles</string>
     <string name="placeholder_email">email@example.com</string>
     <string name="placeholder_full_name">Full Name</string>
+    <string name="placeholder_time_long">0m 0s</string>
     <string name="placeholder_total_miles">0 mi</string>
+    <string name="placeholder_zero">0</string>
 
     <string-array name="sex">
         <item>Female</item>

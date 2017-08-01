@@ -3,6 +3,7 @@ package cat.dev.fitness;
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -264,16 +265,6 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 int activeTime = (int) (timeOnPause + elapsedTime) / 1000;
                 int totalTime = (int) (SystemClock.uptimeMillis() - startTime) / 1000;
 
-                int minutes = activeTime / 60;
-                int seconds = activeTime % 60;
-
-                Log.d(TAG, String.format(Locale.US, "Active time: %02d:%02d", minutes, seconds));
-
-                minutes = totalTime / 60;
-                seconds = totalTime % 60;
-
-                Log.d(TAG, String.format(Locale.US, "Total time: %02d:%02d", minutes, seconds));
-
                 SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
@@ -282,9 +273,13 @@ public class GoogleMapsFragment extends Fragment implements LocationListener, On
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_DISTANCE, totalDistance);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_TOTAL_TIME, totalTime);
 
-                database.insert(DatabaseHelper.Workout.TABLE_NAME, null, values);
+                long workoutId = database.insert(DatabaseHelper.Workout.TABLE_NAME, null, values);
 
                 mDatabaseHelper.close();
+
+                Intent intent = new Intent(getContext(), WorkoutSummaryActivity.class);
+                intent.putExtra("workout_id", workoutId);
+                getActivity().startActivity(intent);
             }
         });
     }
