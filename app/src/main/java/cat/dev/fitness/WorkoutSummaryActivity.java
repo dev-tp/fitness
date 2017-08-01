@@ -47,14 +47,17 @@ public class WorkoutSummaryActivity extends AppCompatActivity {
 
             activeTimeTextView.setText(String.format(Locale.US, "%dm %ds", minutes, seconds));
 
-            double averagePace = (activeTime / 60) / distance;
+            if (distance != 0.0) {
+                double averagePace = activeTime / 60 / distance;
 
-            minutes = (int) averagePace;
-            seconds = (int) (averagePace % 1 * 60);
+                minutes = (int) averagePace;
+                seconds = (int) (averagePace % 1 * 60);
 
-            averagePaceTextView.setText(String.format(Locale.US, "%d:%02d/mi", minutes, seconds));
+                averagePaceTextView.setText(String.format(Locale.US, "%d:%02d/mi", minutes, seconds));
+            }
+
             caloriesTextView.setText(String.format(Locale.US, "%d", calories));
-            distanceTextView.setText(String.format(Locale.US, "%.2f", distance));
+            distanceTextView.setText(String.format(Locale.US, "%.2f miles", distance));
             stepsTextView.setText(String.format(Locale.US, "%d", steps));
 
             minutes = totalTime / 60;
