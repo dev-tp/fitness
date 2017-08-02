@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new GoogleMapsFragment())
+                .replace(R.id.fragment_container, new WorkoutHistoryFragment())
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new GoogleMapsFragment())
+                    .replace(R.id.fragment_container, new WorkoutHistoryFragment())
                     .commit();
         }
 

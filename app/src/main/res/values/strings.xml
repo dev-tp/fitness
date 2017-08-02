@@ -30,6 +30,9 @@
     <string name="placeholder_distance_mi">0.0 miles</string>
     <string name="placeholder_email">email@example.com</string>
     <string name="placeholder_full_name">Full Name</string>
+    <string name="placeholder_item_active_time">0 min workout</string>
+    <string name="placeholder_item_date">Tuesday, February 6, 00:00</string>
+    <string name="placeholder_item_summary">0 miles - 0 calories</string>
     <string name="placeholder_time_long">0m 0s</string>
     <string name="placeholder_total_miles">0 mi</string>
     <string name="placeholder_zero">0</string>
