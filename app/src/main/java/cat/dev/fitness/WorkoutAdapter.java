@@ -2,7 +2,6 @@ package cat.dev.fitness;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,12 +21,14 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
 
     WorkoutAdapter(FragmentActivity activity) {
         mDatabaseHelper = new DatabaseHelper(activity);
-        SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
-
-        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + _ID +  " DESC";
-
-        mCursor = database.rawQuery(query, null);
+        updateCursor();
         mActivity = activity;
+    }
+
+    void deleteEntry(long id) {
+        mDatabaseHelper.getWritableDatabase().delete(TABLE_NAME, _ID + " = " + id, null);
+        updateCursor();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -56,6 +57,11 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             mDatabaseHelper.close();
     }
 
+    private void updateCursor() {
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + _ID +  " DESC";
+        mCursor = mDatabaseHelper.getReadableDatabase().rawQuery(query, null);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private long id;
@@ -82,6 +88,8 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
 
             mActiveTimeTextView.setText(String.format(Locale.US, "%d min workout", activeTime));
             mSummaryTextView.setText(String.format(Locale.US, "%d miles - %d calories", distance, calories));
+
+            itemView.setTag(id);
         }
 
         @Override
