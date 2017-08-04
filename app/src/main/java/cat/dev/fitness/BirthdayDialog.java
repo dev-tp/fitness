@@ -1,16 +1,20 @@
 package cat.dev.fitness;
 
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.DatePicker;
 
 public class BirthdayDialog extends DialogFragment implements OnClickListener {
 
-    private DatePicker mBirthdayPicker;
+    private BirthdayPicker mBirthdayPicker;
 
     @Override
     public void onClick(View view) {
@@ -34,7 +38,7 @@ public class BirthdayDialog extends DialogFragment implements OnClickListener {
         view.findViewById(R.id.cancel_button).setOnClickListener(this);
         view.findViewById(R.id.done_button).setOnClickListener(this);
 
-        mBirthdayPicker = (DatePicker) view.findViewById(R.id.birthday);
+        mBirthdayPicker = (BirthdayPicker) view.findViewById(R.id.birthday);
 
         String date = getArguments().getString("date");
 
@@ -53,5 +57,31 @@ public class BirthdayDialog extends DialogFragment implements OnClickListener {
 
     interface OnCloseDialog {
         void onClose(int day, int month, int year);
+    }
+}
+
+class BirthdayPicker extends DatePicker {
+
+    public BirthdayPicker(Context context) {
+        super(context);
+    }
+
+    public BirthdayPicker(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public BirthdayPicker(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        ViewParent parentView = getParent();
+
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN)
+            if (parentView != null)
+                parentView.requestDisallowInterceptTouchEvent(true);
+
+        return false;
     }
 }
