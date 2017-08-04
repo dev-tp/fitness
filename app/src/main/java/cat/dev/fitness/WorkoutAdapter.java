@@ -6,8 +6,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.Locale;
 
@@ -62,17 +68,24 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
         mCursor = mDatabaseHelper.getReadableDatabase().rawQuery(query, null);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener, OnMapReadyCallback {
 
         private long id;
+        private MapView mMapView;
         private TextView mActiveTimeTextView;
         private TextView mSummaryTextView;
 
         ViewHolder(View view) {
             super(view);
 
+            mMapView = (MapView) view.findViewById(R.id.map_view);
             mActiveTimeTextView = (TextView) view.findViewById(R.id.active_time);
             mSummaryTextView = (TextView) view.findViewById(R.id.summary);
+
+            if (mMapView != null) {
+                mMapView.onCreate(null);
+                mMapView.getMapAsync(this);
+            }
 
             view.setOnClickListener(this);
         }
@@ -97,6 +110,12 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             Intent intent = new Intent(mActivity, WorkoutSummaryActivity.class);
             intent.putExtra("workout_id", id);
             mActivity.startActivity(intent);
+        }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            MapsInitializer.initialize(mActivity);
+            mMapView.onResume();
         }
     }
 }
