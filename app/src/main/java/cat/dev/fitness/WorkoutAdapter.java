@@ -102,6 +102,8 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             mActiveTimeTextView.setText(String.format(Locale.US, "%d min workout", activeTime));
             mSummaryTextView.setText(String.format(Locale.US, "%d miles - %d calories", distance, calories));
 
+            // TODO Get COLUMN_NAME_START_TIME (long) and create a DateTime object to display it.
+
             itemView.setTag(id);
         }
 
