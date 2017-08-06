@@ -15,6 +15,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import static cat.dev.fitness.DatabaseHelper.Workout.*;
@@ -73,6 +75,7 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
         private long id;
         private MapView mMapView;
         private TextView mActiveTimeTextView;
+        private TextView mDateTextView;
         private TextView mSummaryTextView;
 
         ViewHolder(View view) {
@@ -80,6 +83,7 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
 
             mMapView = (MapView) view.findViewById(R.id.map_view);
             mActiveTimeTextView = (TextView) view.findViewById(R.id.active_time);
+            mDateTextView = (TextView) view.findViewById(R.id.date);
             mSummaryTextView = (TextView) view.findViewById(R.id.summary);
 
             if (mMapView != null) {
@@ -102,7 +106,9 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             mActiveTimeTextView.setText(String.format(Locale.US, "%d min workout", activeTime));
             mSummaryTextView.setText(String.format(Locale.US, "%d miles - %d calories", distance, calories));
 
-            // TODO Get COLUMN_NAME_START_TIME (long) and create a DateTime object to display it.
+            long startTime = mCursor.getLong(mCursor.getColumnIndex(COLUMN_NAME_START_TIME));
+            SimpleDateFormat date = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.US);
+            mDateTextView.setText(date.format(new Date(startTime)));
 
             itemView.setTag(id);
         }
