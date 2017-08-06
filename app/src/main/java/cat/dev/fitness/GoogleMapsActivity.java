@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class GoogleMapsActivity extends FragmentActivity implements LocationListener, OnMapReadyCallback {
@@ -176,11 +178,13 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
                 int activeTime = (int) (timeOnPause + elapsedTime) / 1000;
                 int totalTime = (int) (System.currentTimeMillis() - startTime) / 1000;
 
+                SimpleDateFormat date = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.US);
                 SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_ACTIVE_TIME, activeTime);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_BURNT_CALORIES, burntCalories);
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_DATE, date.format(new Date(startTime)));
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_DISTANCE, totalDistance);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_START_TIME, startTime);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_TOTAL_TIME, totalTime);

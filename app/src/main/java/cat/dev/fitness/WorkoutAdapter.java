@@ -15,8 +15,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import static cat.dev.fitness.DatabaseHelper.Workout.*;
@@ -104,11 +102,8 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             int distance = (int) mCursor.getDouble(mCursor.getColumnIndex(COLUMN_NAME_DISTANCE));
 
             mActiveTimeTextView.setText(String.format(Locale.US, "%d min workout", activeTime));
+            mDateTextView.setText(mCursor.getString(mCursor.getColumnIndex(COLUMN_NAME_DATE)));
             mSummaryTextView.setText(String.format(Locale.US, "%d miles - %d calories", distance, calories));
-
-            long startTime = mCursor.getLong(mCursor.getColumnIndex(COLUMN_NAME_START_TIME));
-            SimpleDateFormat date = new SimpleDateFormat("EEEE, MMMM d, yyyy hh:mm a", Locale.US);
-            mDateTextView.setText(date.format(new Date(startTime)));
 
             itemView.setTag(id);
         }

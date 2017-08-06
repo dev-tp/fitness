@@ -64,6 +64,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         static final String COLUMN_NAME_ACTIVE_TIME = "active_time";
         static final String COLUMN_NAME_BURNT_CALORIES = "burnt_calories";
+        static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_DISTANCE = "distance";
         static final String COLUMN_NAME_START_TIME = "start_time";
         static final String COLUMN_NAME_STEPS = "steps";
@@ -74,6 +75,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                         _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_NAME_ACTIVE_TIME + " INTEGER, " +
                         COLUMN_NAME_BURNT_CALORIES + " INTEGER, " +
+                        COLUMN_NAME_DATE + " TEXT, " +
                         COLUMN_NAME_DISTANCE + " REAL, " +
                         COLUMN_NAME_START_TIME + " INTEGER, " +
                         COLUMN_NAME_STEPS + " INTEGER DEFAULT 0, " +
