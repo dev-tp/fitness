@@ -13,7 +13,6 @@ import android.location.LocationManager;
 import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -63,7 +62,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
     private Runnable updateTimeThread = new Runnable() {
         @Override
         public void run() {
-            elapsedTime = SystemClock.uptimeMillis() - timeOnStart;
+            elapsedTime = System.currentTimeMillis() - timeOnStart;
 
             int elapse = (int) (timeOnPause + elapsedTime) / 1000;
             int minutes = elapse / 60;
@@ -139,7 +138,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
             @Override
             public void onClick(View v) {
                 if (startTime == 0L)
-                    startTime = SystemClock.uptimeMillis();
+                    startTime = System.currentTimeMillis();
 
                 onStart = !onStart;
 
@@ -147,7 +146,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
                 stopButton.setEnabled(onStart);
 
                 if (onStart) {
-                    timeOnStart = SystemClock.uptimeMillis();
+                    timeOnStart = System.currentTimeMillis();
                     mHandler.postDelayed(updateTimeThread, REFRESH_RATE);
                     mActiveTimeView.setAnimation(null);
                 } else {
@@ -175,7 +174,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
                 startPauseButton.setEnabled(false);
 
                 int activeTime = (int) (timeOnPause + elapsedTime) / 1000;
-                int totalTime = (int) (SystemClock.uptimeMillis() - startTime) / 1000;
+                int totalTime = (int) (System.currentTimeMillis() - startTime) / 1000;
 
                 SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
 
