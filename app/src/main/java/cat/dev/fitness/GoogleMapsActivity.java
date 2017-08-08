@@ -185,7 +185,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_ACTIVE_TIME, activeTime);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_BURNT_CALORIES, burntCalories);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_DATE, date.format(new Date(startTime)));
-                values.put(DatabaseHelper.Workout.COLUMN_NAME_DISTANCE, totalDistance);
+                values.put(DatabaseHelper.Workout.COLUMN_NAME_DISTANCE, totalDistance * 0.000621371);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_START_TIME, startTime);
                 values.put(DatabaseHelper.Workout.COLUMN_NAME_TOTAL_TIME, totalTime);
 
