@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -64,6 +65,26 @@ public class WorkoutSummaryActivity extends AppCompatActivity {
             seconds = totalTime % 60;
 
             totalTimeTextView.setText(String.format(Locale.US, "%dm %ds", minutes, seconds));
+
+            cursor = database.query(
+                    DatabaseHelper.Coordinates.TABLE_NAME,
+                    new String[] {
+                            DatabaseHelper.Coordinates.COLUMN_NAME_LATITUDE,
+                            DatabaseHelper.Coordinates.COLUMN_NAME_LONGITUDE
+                    },
+                    DatabaseHelper.Coordinates.COLUMN_NAME_WORKOUT_ID + " = " + workoutId,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            int size = 0;
+
+            while (cursor.moveToNext())
+                size++;
+
+            Toast.makeText(this, "coordinates.size: " + size, Toast.LENGTH_SHORT).show();
         }
 
         cursor.close();

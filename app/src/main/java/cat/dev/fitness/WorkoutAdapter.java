@@ -2,6 +2,7 @@ package cat.dev.fitness;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +33,12 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
     }
 
     void deleteEntry(long id) {
-        mDatabaseHelper.getWritableDatabase().delete(TABLE_NAME, _ID + " = " + id, null);
+        SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
+
+        database.delete(DatabaseHelper.Coordinates.TABLE_NAME,
+                DatabaseHelper.Coordinates.COLUMN_NAME_WORKOUT_ID + " = " + id, null);
+        database.delete(TABLE_NAME, _ID + " = " + id, null);
+
         updateCursor();
         notifyDataSetChanged();
     }

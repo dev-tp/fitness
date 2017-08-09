@@ -21,6 +21,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(Coordinates.SQL_CREATE_ENTRIES);
         db.execSQL(User.SQL_CREATE_ENTRIES);
         db.execSQL(Workout.SQL_CREATE_ENTRIES);
     }
@@ -32,10 +33,28 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(Coordinates.SQL_DELETE_ENTRIES);
         db.execSQL(User.SQL_DELETE_ENTRIES);
         db.execSQL(Workout.SQL_DELETE_ENTRIES);
 
         onCreate(db);
+    }
+
+    static class Coordinates implements BaseColumns {
+        static final String TABLE_NAME = "Coordinates";
+
+        static final String COLUMN_NAME_LATITUDE = "latitude";
+        static final String COLUMN_NAME_LONGITUDE = "longitude";
+        static final String COLUMN_NAME_WORKOUT_ID = "workout_id";
+
+        static final String SQL_CREATE_ENTRIES =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_NAME_LATITUDE + " REAL NOT NULL, " +
+                        COLUMN_NAME_LONGITUDE + " REAL NOT NULL, " +
+                        COLUMN_NAME_WORKOUT_ID + " INTEGER NOT NULL)";
+
+        static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     static class User implements BaseColumns {

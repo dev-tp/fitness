@@ -191,6 +191,25 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
 
                 long workoutId = database.insert(DatabaseHelper.Workout.TABLE_NAME, null, values);
 
+                if (workoutId != -1) {
+                    String query = String.format(Locale.US, "INSERT INTO %s (%s, %s, %s) ",
+                            DatabaseHelper.Coordinates.TABLE_NAME,
+                            DatabaseHelper.Coordinates.COLUMN_NAME_WORKOUT_ID,
+                            DatabaseHelper.Coordinates.COLUMN_NAME_LATITUDE,
+                            DatabaseHelper.Coordinates.COLUMN_NAME_LONGITUDE
+                    );
+
+                    for (LatLng coordinate : coordinates) {
+                        database.beginTransaction();
+
+                        database.execSQL(query + String.format(Locale.US, "VALUES (%d, %f, %f)",
+                                workoutId, coordinate.latitude, coordinate.longitude));
+
+                        database.setTransactionSuccessful();
+                        database.endTransaction();
+                    }
+                }
+
                 mDatabaseHelper.close();
 
                 Intent intent = new Intent(GoogleMapsActivity.this, WorkoutSummaryActivity.class);
