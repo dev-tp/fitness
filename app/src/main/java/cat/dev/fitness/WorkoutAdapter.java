@@ -11,10 +11,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Locale;
 
@@ -114,6 +116,27 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             itemView.setTag(id);
         }
 
+        private LatLng getFirstCoordinate() {
+            LatLng coordinate;
+
+            String query = String.format(Locale.US, "SELECT %s, %s FROM %s WHERE %s = %d",
+                    DatabaseHelper.Coordinates.COLUMN_NAME_LATITUDE,
+                    DatabaseHelper.Coordinates.COLUMN_NAME_LONGITUDE,
+                    DatabaseHelper.Coordinates.TABLE_NAME,
+                    DatabaseHelper.Coordinates.COLUMN_NAME_WORKOUT_ID,
+                    id
+            );
+
+            Cursor cursor = mDatabaseHelper.getReadableDatabase().rawQuery(query, null);
+            cursor.moveToNext();
+
+            coordinate = new LatLng(cursor.getDouble(0), cursor.getDouble(1));
+
+            cursor.close();
+
+            return coordinate;
+        }
+
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mActivity, WorkoutSummaryActivity.class);
@@ -124,6 +147,9 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(mActivity);
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(getFirstCoordinate(), 14.0f));
+
             mMapView.onResume();
         }
     }
