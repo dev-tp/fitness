@@ -49,7 +49,7 @@ public class WorkoutSummaryActivity extends AppCompatActivity {
             activeTimeTextView.setText(String.format(Locale.US, "%dm %ds", minutes, seconds));
 
             if (distance != 0.0) {
-                double averagePace = activeTime / 60 / distance;
+                double averagePace = (double) activeTime / 60 / distance;
 
                 minutes = (int) averagePace;
                 seconds = (int) (averagePace % 1 * 60);
