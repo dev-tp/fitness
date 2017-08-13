@@ -117,7 +117,7 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
         }
 
         private LatLng getFirstCoordinate() {
-            LatLng coordinate;
+            LatLng coordinate = new LatLng(0.0f, 0.0f);
 
             String query = String.format(Locale.US, "SELECT %s, %s FROM %s WHERE %s = %d",
                     DatabaseHelper.Coordinates.COLUMN_NAME_LATITUDE,
@@ -128,9 +128,9 @@ class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
             );
 
             Cursor cursor = mDatabaseHelper.getReadableDatabase().rawQuery(query, null);
-            cursor.moveToNext();
 
-            coordinate = new LatLng(cursor.getDouble(0), cursor.getDouble(1));
+            if (cursor.moveToNext())
+                coordinate = new LatLng(cursor.getDouble(0), cursor.getDouble(1));
 
             cursor.close();
 
