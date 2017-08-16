@@ -41,7 +41,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
 
     private static final long REFRESH_RATE = 100L;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private static final String TAG = "GoogleMapsActivity";
+    public static final String TAG = "GoogleMapsActivity";
 
     private boolean onStart;
     private double totalDistance;
@@ -213,6 +213,7 @@ public class GoogleMapsActivity extends FragmentActivity implements LocationList
                 mDatabaseHelper.close();
 
                 Intent intent = new Intent(GoogleMapsActivity.this, WorkoutSummaryActivity.class);
+                intent.putExtra("caller", TAG);
                 intent.putExtra("workout_id", workoutId);
                 startActivity(intent);
             }

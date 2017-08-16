@@ -1,5 +1,6 @@
 package cat.dev.fitness;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,18 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class WorkoutSummaryActivity extends AppCompatActivity {
+
+    @Override
+    public void onBackPressed() {
+        String caller = getIntent().getStringExtra("caller");
+
+        if (caller != null && caller.equals(GoogleMapsActivity.TAG)) {
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
